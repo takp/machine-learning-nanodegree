@@ -47,7 +47,7 @@ class LearningAgent(Agent):
         else:
             # --- For initial Q-learning ---
             # Decay by 0.05
-            self.epsilon = self.epsilon - 0.05
+            # self.epsilon = self.epsilon - 0.05
 
             # --- For optimized Q-learning ---
             # # Calculate epsilon by (1 / t**2)
@@ -56,6 +56,9 @@ class LearningAgent(Agent):
 
             # # Decay by 0.01
             # self.epsilon = self.epsilon - 0.01
+
+            self.epsilon = math.exp(- 0.003 * self.count)
+            self.count += 1
 
         return None
 
@@ -201,8 +204,8 @@ def run():
     #    * alpha   - continuous value for the learning rate, default is 0.5
 
     # agent = env.create_agent(LearningAgent, learning=False, epsilon=1.0, alpha=0.5) # For non-learning
-    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.5) # For initial Q-learning
-    # agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.8) # For optimized Q-learning
+    # agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.5) # For initial Q-learning
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.9) # For optimized Q-learning
     
     ##############
     # Follow the driving agent
@@ -220,8 +223,8 @@ def run():
     #   optimized    - set to True to change the default log file name
 
     # sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=False) # For non-learning
-    sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=False) # For initial Q-learning
-    # sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=True) # For optimized Q-learning
+    # sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=False) # For initial Q-learning
+    sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=True) # For optimized Q-learning
     
     ##############
     # Run the simulator
@@ -229,8 +232,8 @@ def run():
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
     # sim.run(n_test=10, tolerance=0.05) # For non-learning
-    sim.run(n_test=10, tolerance=0.05) # For initial Q-learning
-    # sim.run(n_test=95, tolerance=0.05) # For initial Q-learning
+    # sim.run(n_test=10, tolerance=0.05) # For initial Q-learning
+    sim.run(n_test=50, tolerance=0.10) # For initial Q-learning
 
 
 if __name__ == '__main__':
