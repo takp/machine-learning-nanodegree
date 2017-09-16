@@ -3,6 +3,7 @@ data/
 .idea/
 *.iml
 .vscode
+tmp/
 
 dog-project/dogImages/
 dog-project/lfw/
