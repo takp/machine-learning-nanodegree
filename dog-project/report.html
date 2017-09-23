@@ -13785,19 +13785,26 @@ Dog was detected as dog 100%
 <p><img src="images/sample_cnn.png" alt="Sample CNN"></p>
 <p><strong>Question 4:</strong> Outline the steps you took to get to your final CNN architecture and your reasoning at each step.  If you chose to use the hinted architecture above, describe why you think that CNN architecture should work well for the image classification task.</p>
 <p><strong>Answer:</strong></p>
-<p>I think this architecture works well because it puts both Conv2D layer and MaxPooling2D layer and it will extract the features of the images.</p>
-<p>At first, I implemented the architecture above and I got as following.</p>
-<ul>
-<li>epoch: 10, then <strong>Test accuracy: 3.3493%</strong></li>
-</ul>
-<p>The scores are more than 1 % so it is better than random choice. 
-But it is too low to use it in actual scene.</p>
-<p>Also, it may be overfitted so I tried to put the <strong>Dropout</strong> to the above architecture. 
-After training, I got this:</p>
-<ul>
-<li>epoch: 5, then <strong>Test accuracy: 2.5120%</strong></li>
-</ul>
-<p>It got even lower, so it was not overfitted</p>
+<p>I chose to use the architecture above.</p>
+<p><strong>Layer 1</strong> <code>Conv2D(filters=16, kernel_size=2, padding='valid', activation='relu', input_shape=(224, 224, 3))</code></p>
+<p>kernel_size=2 and the stride=1, this will make the window sized 2x2 and stride it by 1. So this convolutional layer will lessen the shape by 1, which outputs 223 x 223 shape.
+And the filters are 16, so it has 16 filters (depths), it will output <strong>223 x 223 x 16</strong> shape.</p>
+<p><strong>Layer 2</strong> <code>MaxPooling2D(pool_size=2)</code></p>
+<p>pool_size is 2, this will lessen the dimensionality to half size. So the output shape is <strong>111 x 111 x 16</strong>.</p>
+<p><strong>Layer 3</strong> <code>Conv2D(filters=32, kernel_size=2, padding='valid', activation='relu')</code></p>
+<p>This is similar to (1) but the filters is 32, so the output shape is <strong>110 x 110 x 32</strong>.</p>
+<p><strong>Layer 4</strong> <code>MaxPooling2D(pool_size=2)</code></p>
+<p>This is same as (2) and make it half size, so the output shape is <strong>55 x 55 x 32</strong></p>
+<p><strong>Layer 5</strong> <code>Conv2D(filters=64, kernel_size=2, padding='valid', activation='relu')</code></p>
+<p>This also similar to (1) except the filters is 64, so the output shape is <strong>54 x 54 x 64</strong></p>
+<p><strong>Layer 6</strong> <code>MaxPooling2D(pool_size=2)</code></p>
+<p>This is same as (2), so the output shape is <strong>27 x 27 x 64</strong></p>
+<p><strong>Layer 7</strong> <code>GlobalAveragePooling2D()</code></p>
+<p>This pooling work for globally, so this will lessen the dimensionality to <strong>64</strong> same as filter size.</p>
+<p><strong>Layer 8</strong> <code>Dense(133, activation='softmax')</code></p>
+<p>This is neural network layer with units: 133 using softmax as an activation function.
+This will outputs the unit size <strong>133</strong>.</p>
+<p>I think this architecture is good to go, because this has 3 convolutional layers and 3 pooling layers so it will extract the features. After those layers, it has global pooling layer and finally it has an neural network (Dense) to 133 units (same to the number of dog breeds). I think this will make the good filters and will extract the features of the images well.</p>
 
 </div>
 </div>
